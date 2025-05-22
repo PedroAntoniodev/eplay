@@ -1,4 +1,10 @@
+import { table } from 'console'
 import { createGlobalStyle } from 'styled-components'
+
+export const breackpoints = {
+  desktop: '1024px',
+  tablet: '768px'
+}
 
 export const cores = {
   branca: '#EEEEEE',
@@ -26,5 +32,9 @@ body{
   max-width: 1024px;
   width: 100%;
   margin: 0 auto;
+
+  @media (max-width: ${breackpoints.desktop} ){
+    max-width: 80%;
+  }
 }
 `
