@@ -1,12 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Game } from '../pages/Home'
 
 type Product = {
   id: number
   price: number
 }
 
-type PurchasePayLoad = {
+type PurchasePayload = {
   products: Product[]
   billing: {
     name: string
@@ -35,9 +34,13 @@ type PurchasePayLoad = {
   }
 }
 
+type PurchaseResponse = {
+  orderId: string
+}
+
 const api = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://fake-api-tau.vercel.app/api/eplay/'
+    baseUrl: 'https://fake-api-tau.vercel.app/api/eplay'
   }),
   endpoints: (builder) => ({
     getFeaturedGame: builder.query<Game, void>({
@@ -52,9 +55,6 @@ const api = createApi({
     getActionGames: builder.query<Game[], void>({
       query: () => 'acao'
     }),
-    getRpgGames: builder.query<Game[], void>({
-      query: () => 'rpg'
-    }),
     getSportsGames: builder.query<Game[], void>({
       query: () => 'esportes'
     }),
@@ -64,10 +64,13 @@ const api = createApi({
     getFightGames: builder.query<Game[], void>({
       query: () => 'luta'
     }),
+    getRpgGames: builder.query<Game[], void>({
+      query: () => 'rpg'
+    }),
     getGame: builder.query<Game, string>({
       query: (id) => `jogos/${id}`
     }),
-    purchase: builder.mutation<any, PurchasePayLoad>({
+    purchase: builder.mutation<PurchaseResponse, PurchasePayload>({
       query: (body) => ({
         url: 'checkout',
         method: 'POST',
@@ -82,10 +85,10 @@ export const {
   useGetSoonQuery,
   useGetOnSaleQuery,
   useGetActionGamesQuery,
-  useGetRpgGamesQuery,
   useGetSportsGamesQuery,
   useGetSimulationGamesQuery,
   useGetFightGamesQuery,
+  useGetRpgGamesQuery,
   useGetGameQuery,
   usePurchaseMutation
 } = api
